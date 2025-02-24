@@ -1,0 +1,52 @@
+# Xcode files
+*.xcworkspace/
+*.xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+*.DS_Store
+!default.mode1v3
+!default.mode2v3
+!default.pbxuser
+*.pbxuser
+*.mode1v3
+*.mode2v3
+
+# Build artifacts
+DerivedData/
+Build/
+*.ipa
+*.app
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+/.swiftpm/
+/.build/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Swift Package Manager artifacts
+Package.resolved
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
+
+# Generated files
+*.hmap
+*.xccheckout
+*.xcscmblueprint
+*.xcuserstate
+*.xcuserdatad/
+
+# Framework-specific files
+Frameworks/
+*.framework/
+*.xcframework/
