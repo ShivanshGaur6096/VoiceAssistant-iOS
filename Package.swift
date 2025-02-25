@@ -21,7 +21,7 @@ let package = Package(
             dependencies: [
                 .product(name: "WebRTC", package: "WebRTC")
             ],
-            path: "VoiceAssistant-iOS/VoiceAssistant-iOS/Sources",
+            path: "VoiceAssistant-iOS/VoiceAssistant-iOS/VoiceAssistant-iOS/Sources",
             exclude: [],
             resources: [],
             publicHeadersPath: "include",
