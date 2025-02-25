@@ -64,7 +64,7 @@ public struct Constants {
                 "method": "verto.invite",
                 "params": inviteParams
             ]
-            print("Offer Created: \(UserDefaults.standard.string(forKey: "keyUserVariablesAuthKey"))")
+            
             return offerDict
         }
         
