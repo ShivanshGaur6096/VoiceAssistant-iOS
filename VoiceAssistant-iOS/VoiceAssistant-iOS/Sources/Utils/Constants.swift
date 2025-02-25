@@ -11,7 +11,7 @@ public struct Constants {
     static let uuid = UserDefaults.standard.string(forKey: "keyUserID")
     
     struct WebRTCCalls {
-        static let serverURL: String = "wss://eva-demo-backend.bngrenew.com:443/webrtc" // "wss://mwc-demo.bngrenew.com/webrtc"
+        static let serverURL: String = UserDefaults.standard.string(forKey: "keyWebRTCServerURL")!
         
         static func createLoginMessage() -> [String: Any] {
             
@@ -22,8 +22,8 @@ public struct Constants {
             ]
             
             let loginParams: [String: Any] = [
-                "login": "admin@",
-                "passwd": "admin",
+                "login": UserDefaults.standard.string(forKey: "keyLoginID")!,
+                "passwd": UserDefaults.standard.string(forKey: "keyLoginPass")!,
                 "loginParams": userVariables,
                 "userVariables": userVariables,
                 "sessid": Constants.uuid!
@@ -44,14 +44,14 @@ public struct Constants {
                 "callID": Constants.uuid!,
                 "caller_id_name": "MWC_iOS",
                 "caller_id_number": "9876543210",
-                "destination_number": "2025",
+                "destination_number": UserDefaults.standard.string(forKey: "keyDestinationNumber")!,
                 "sessid": Constants.uuid!,
                 "useMic": "any",
                 "useSpeak": "any",
                 "useStereo": false,
                 "useStream": false,
                 "useVideo": false,
-                "userVariables": ["auth_key": "Ym5nOmV2YQ"]
+                "userVariables": ["auth_key": UserDefaults.standard.string(forKey: "keyUserVariablesAuthKey")!]
             ]
             
             let inviteParams: [String: Any] = [
@@ -64,7 +64,7 @@ public struct Constants {
                 "method": "verto.invite",
                 "params": inviteParams
             ]
-            
+            print("Offer Created: \(UserDefaults.standard.string(forKey: "keyUserVariablesAuthKey"))")
             return offerDict
         }
         
@@ -122,7 +122,7 @@ public struct Constants {
         }
         
         // MARK: Recharge Success Event
-        // TODO: Need to configure it for 
+        // TODO: Need to configure it for
         static func sendRechargeSuccessEvent(with packID: String) -> [String: Any] {
             var packDetails: String = ""
             switch packID {

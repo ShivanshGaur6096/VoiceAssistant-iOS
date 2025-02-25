@@ -109,24 +109,6 @@ class DraggableContainerView: UIView {
         backgroundView.isHidden = true
     }
     
-    //    private func setupSubviews(gifName: String?) {
-    //
-    //        if let gifView = gifView {
-    //            gifView.frame = CGRect(
-    //                x: (bounds.width - enlargedSize) / 2,
-    //                y: (bounds.height - enlargedSize) / 2,
-    //                width: enlargedSize,
-    //                height: enlargedSize
-    //            )
-    //            self.addSubview(gifView)
-    //            sendSubviewToBack(gifView)
-    //        }
-    //
-    //        // Add button
-    //        button.center = CGPoint(x: bounds.midX, y: bounds.midY)
-    //        self.addSubview(button)
-    //    }
-    
     // Update UI when call state changes
     private func updateCallUI(startingCall: Bool) {
         DispatchQueue.main.async {
@@ -334,28 +316,6 @@ extension DraggableContainerView: SignalingDelegate {
                 self.textView.isHidden = true
             }
         }
-        
-//        if !connected {
-//            DispatchQueue.main.async {
-//                self.isNewCall = true // check if socket did not get connected then close
-//                self.isCallActive = false
-//                self.isCallOnHold = false
-//                self.gifView?.isHidden = true
-//                self.button.alpha = 0.7
-//                print("Connected Received: \(connected) || from !connected")
-//            }
-//        } else {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//                /// Add text and background view if available
-//                if let textView = self.textView, let backgroundView = self.backgroundView {
-//                    print("Connected Received: \(connected) || from connected")
-//                    self.button.alpha = 1.0
-//                    self.addSubview(backgroundView)
-//                    self.addSubview(textView)
-//                    self.updateTextViewPosition()
-//                }
-//            }
-//        }
     }
     
     func botSpeakingStatus(isSpeaking: Bool) {

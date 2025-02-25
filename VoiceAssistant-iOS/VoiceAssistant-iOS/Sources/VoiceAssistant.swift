@@ -24,7 +24,8 @@ public class VoiceAssistant: NSObject {
     @objc
     public static func addButton(
         to viewController: UIViewController,
-        with config: VoiceAssistantConfig
+        with config: VoiceAssistantConfig,
+        details: AssistantModel
     ) {
         
         guard !config.tenantId.isEmpty else {
@@ -32,12 +33,13 @@ public class VoiceAssistant: NSObject {
             return
         }
         
-        /// Create user id if not generated yet
-//        if (UserDefaults.standard.string(forKey: "keyUserID") == nil) {
-//            UserDefaults.standard.set(UUID().uuidString, forKey: "keyUserID")
-//        }
         ///  Generate New User Id everytime
         UserDefaults.standard.set(UUID().uuidString, forKey: "keyUserID")
+        UserDefaults.standard.set(details.serverURL, forKey: "keyWebRTCServerURL")
+        UserDefaults.standard.set(details.login, forKey: "keyLoginID")
+        UserDefaults.standard.set(details.pass, forKey: "keyLoginPass")
+        UserDefaults.standard.set(details.destination_number, forKey: "keyDestinationNumber")
+        UserDefaults.standard.set(details.userVariablesAuthKey, forKey: "keyUserVariablesAuthKey")
         
         // Perform setup asynchronously for better performance
         DispatchQueue.global(qos: .userInitiated).async {

@@ -9,9 +9,6 @@ import Foundation
 
 enum MessageType: String {
     case login = "verto.login"
-//    case clientReady = "verto.clientReady"
-//    case answer = "verto.answer"
-//    case display = "verto.display"
     case ping = "verto.ping"
     case bye = "verto.bye"
     case startAsr = "start_asr"

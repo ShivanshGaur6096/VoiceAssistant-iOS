@@ -1,10 +1,3 @@
-//
-//  VoiceAssistantConfig.swift
-//  VoiceAssistant-iOS
-//
-//  Created by Shivansh Gaur on 24/02/25.
-//
-
 import UIKit
 
 @objc public class VoiceAssistantConfig: NSObject {
@@ -56,4 +49,27 @@ import UIKit
         self.setTitleColor = nil
         self.backgroundColor = nil
     }
+}
+
+@objc public class AssistantModel: NSObject {
+    public let serverURL: String
+    public let login: String
+    public let pass: String
+    public let destination_number: String
+    public let userVariablesAuthKey: String
+    
+    @objc public init(
+        serverURL: String,
+        login: String,
+        pass: String,
+        destination_number: String,
+        userVariablesAuthKey: String
+    ) {
+        self.serverURL = serverURL
+        self.login = login
+        self.pass = pass
+        self.destination_number = destination_number
+        self.userVariablesAuthKey = userVariablesAuthKey
+    }
+    
 }

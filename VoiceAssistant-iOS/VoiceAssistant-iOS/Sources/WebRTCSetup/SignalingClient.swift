@@ -235,9 +235,6 @@ class Signaling: NSObject {
             eventMessageString = Constants.WebRTCCalls.startASR(for: .stopAsr)
         case .bye:
             eventMessageString = Constants.WebRTCCalls.sendBye(for: .bye)
-        default:
-            /// Other method doesn't have any event to emit
-            debugPrint("Wrong Input method for: \(event.rawValue)")
         }
         
         guard let eventMessageString else {
