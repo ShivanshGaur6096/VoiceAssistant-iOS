@@ -19,7 +19,7 @@ let package = Package(
         .target(
             name: "VoiceAssistant",
             dependencies: [
-                .product(name: "WebRTC", package: "WebRTC-lib")
+                .product(name: "WebRTC", package: "WebRTC")
             ],
             path: "VoiceAssistant-iOS/VoiceAssistant-iOS/Sources",
             exclude: [],
