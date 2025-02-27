@@ -261,7 +261,7 @@ class Signaling: NSObject {
 
 extension Signaling: WebRTCDelegate {
     
-    func isICEGenerated(sdp: String) {
+    func isICEGenerated() {
         guard let localDescription = webRTCManager.peerConnection?.localDescription else { print("Local description is not set"); return }
         
 //        let offerDict = Constants.WebRTCCalls.createOfferMessage(offer: sdp) // Not working
