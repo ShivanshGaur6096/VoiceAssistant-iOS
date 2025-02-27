@@ -8,7 +8,7 @@
 import WebRTC
 
 protocol WebRTCDelegate: AnyObject {
-    func isICEGenerated(sdp: String)
+    func isICEGenerated()
 }
 
 class WebRTCManager: NSObject {
@@ -73,17 +73,7 @@ extension WebRTCManager {
 
 extension WebRTCManager: RTCPeerConnectionDelegate {
     
-    func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) { }
-    func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) { }
-    func peerConnectionShouldNegotiate(_ peerConnection: RTCPeerConnection) { }
-    func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) { }
-    
-    func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
-        delegate?.isICEGenerated(sdp: candidate.sdp)
-    }
-    
-    func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) { }
-    
+    // MARK: - Audio Channel Adding and Removing Delegates 
     func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
         if let audioTrack = stream.audioTracks.first {
             // Forcing Audio Session to be
@@ -101,10 +91,27 @@ extension WebRTCManager: RTCPeerConnectionDelegate {
         }
     }
     
+    // MARK: - ICE Candidate Generating Delegates
+    func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
+        /// Sdp generated and sent
+        /// **Issue:**
+        /// Suppose it create 5 ICE Candidates and it sent them one by one,
+        /// Either we should put wait timer of 5 second and send them collectively
+        /// `Which is not good practice`
+        /// Instead utilise other delegate `newState == .complete` which say that ice candidate have created and send them
+    }
+    
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
-        
         if newState == .complete {
             // Created SDP to send
+            delegate?.isICEGenerated()
         }
     }
+    
+    // MARK: - Not Required Delegates
+    func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) { }
+    func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) { }
+    func peerConnectionShouldNegotiate(_ peerConnection: RTCPeerConnection) { }
+    func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) { }
+    func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) { }
 }
