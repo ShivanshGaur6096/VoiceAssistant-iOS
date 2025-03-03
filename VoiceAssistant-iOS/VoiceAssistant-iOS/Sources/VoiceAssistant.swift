@@ -92,7 +92,27 @@ public class VoiceAssistant: NSObject {
     }
     
     @objc
-    public static func ackEvent(name: String) {
-        Signaling().sendRechargeSuccess(for: name)
+    public static func ackRechargeSuccess(packName: String) {
+        Signaling().sendRechargeSuccess(for: packName)
+    }
+    
+    @objc
+    public static func ackEvent(eventName: String, eventBody: [String: Any]) {
+        
+        let mockPack = "\"packname\":\"3999\""
+        let ackParams: [String : Any] = [
+            "eventname": eventName,
+            "eventBody": "{\(mockPack)}",
+            "to": "eva",
+            "callId": Constants.uuid!
+        ]
+        
+        let ackEvent: [String: Any] = [
+            "jsonrpc": "2.0",
+            "method":"verto.info",
+            "params":  ["msg": ackParams, "sessid": Constants.uuid!]
+        ]
+        
+        Signaling().emitAck(event: ackEvent)
     }
 }

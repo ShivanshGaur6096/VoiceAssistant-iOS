@@ -15,6 +15,7 @@ protocol SignalingDelegate: AnyObject {
 //    func didStartedAudioCall()
     func botSpeakingStatus(isSpeaking: Bool)
     func signalingDidReceiveMessage(message: String)
+    func backendSocketState()
 }
 
 class Signaling: NSObject {
@@ -134,6 +135,13 @@ class Signaling: NSObject {
             return
         }
         
+        // MARK: Attempt to parse and pretty-print JSON
+//        if let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []),
+//           let prettyJsonData = try? JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted),
+//           let prettyJsonString = String(data: prettyJsonData, encoding: .utf8) {
+//            debugPrint("Formatted JSON Response:\n\(prettyJsonString)")
+//        }
+        
         // Attempt to parse the JSON as a dictionary to check the 'method' field
         guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
               let method = jsonObject["method"] as? String else {
@@ -197,6 +205,10 @@ class Signaling: NSObject {
         if let asrEvent = displayName.eventName {
             let param = asrEvent == "play_start" ? true : false
             delegate?.botSpeakingStatus(isSpeaking:  param)
+            
+            if asrEvent == "call_initialized" {
+                delegate?.backendSocketState()
+            }
         }
         
         if let pageToNavigate = displayName.pageToNavigate {
@@ -212,11 +224,11 @@ class Signaling: NSObject {
             }
             print("Pack ID Generated: \(packIDCreated)")
             
-            if pageToNavigate.lowercased() == "Subscribe".lowercased() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    self.sendRechargeSuccess(for: self.packIDCreated)
-                }
-            }
+//            if pageToNavigate.lowercased() == "Subscribe".lowercased() {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//                    self.sendRechargeSuccess(for: self.packIDCreated)
+//                }
+//            }
         }
     }
     
@@ -253,6 +265,13 @@ class Signaling: NSObject {
         let eventMessageString = Constants.WebRTCCalls.sendRechargeSuccessEvent(with: packID)
         print("sendRechargeSuccess: \(eventMessageString)")
         if let jsonData = try? JSONSerialization.data(withJSONObject: eventMessageString, options: []),
+           let jsonString = String(data: jsonData, encoding: .utf8) {
+            self.webSocketManager.send(message: jsonString)
+        }
+    }
+    
+    func emitAck(event: [String: Any]) {
+        if let jsonData = try? JSONSerialization.data(withJSONObject: event, options: []),
            let jsonString = String(data: jsonData, encoding: .utf8) {
             self.webSocketManager.send(message: jsonString)
         }

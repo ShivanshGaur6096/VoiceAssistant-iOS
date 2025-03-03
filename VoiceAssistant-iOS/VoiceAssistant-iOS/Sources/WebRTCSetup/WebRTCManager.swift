@@ -73,7 +73,7 @@ extension WebRTCManager {
 
 extension WebRTCManager: RTCPeerConnectionDelegate {
     
-    // MARK: - Audio Channel Adding and Removing Delegates 
+    // MARK: - Audio Channel Adding and Removing Delegates
     func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
         if let audioTrack = stream.audioTracks.first {
             // Forcing Audio Session to be

@@ -19,6 +19,7 @@ public struct Constants {
                 "client":"vini",
                 "interface":"app",
                 "email_id":"vini@gmail.com",
+                "manual_asr_control": "true"
             ]
             
             let loginParams: [String: Any] = [
@@ -34,7 +35,9 @@ public struct Constants {
                 "method": "login",
                 "params": loginParams
             ]
-            
+#if DEBUG
+            print("Current Call ID: \(Constants.uuid)")
+#endif
             return loginMessage
         }
         
@@ -138,17 +141,21 @@ public struct Constants {
             
             let rechargeMessage: [String: Any] = [
                 "to": "eva",
-                "eventBody": "{\(packDetails)}",
-                "eventName": "recharge_success",
-                "callId": "\(Constants.uuid!)"
+                "body": [
+                    "{\"eventName\":\"recharge_success\",\"callId\":\"\(Constants.uuid!)\",\"eventBody\":{\(packDetails)}}"
+                ]
+//                "eventName": "recharge_success",
+//                "callId": "\(Constants.uuid!)"
             ]
             
             let rechargeSuccessEvent: [String: Any] = [
                 "jsonrpc": "2.0",
                 "method":"verto.info",
-                "params": ["msg": rechargeMessage]
+                "params": [
+                    "msg": rechargeMessage
+                ]
             ]
-            
+            print("rechargeSuccessEvent: \(rechargeSuccessEvent)")
             return rechargeSuccessEvent
         }
         
