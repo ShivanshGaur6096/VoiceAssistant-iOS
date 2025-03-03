@@ -294,26 +294,30 @@ extension DraggableContainerView: SignalingDelegate {
     
     func socketConnectionStatus(connected: Bool) {
         DispatchQueue.main.async {
-            self.isSocketConnected = connected
-            
-            if connected {
-                self.button.alpha = 1.0
-                self.backgroundView.isHidden = false
-                self.textView.isHidden = false
-                
-                // Ensure text appears at correct position
-                self.updateTextViewPosition()
-                
-                // Hide message after 3 seconds
-                self.hideMessageTimer?.invalidate()
-                self.hideMessageTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
-                    self?.hideInitialMessage()
-                }
-            } else {
+            if !connected {
+                self.isSocketConnected = false
                 self.gifView.isHidden = true
                 self.button.alpha = 0.7
                 self.backgroundView.isHidden = true
                 self.textView.isHidden = true
+            }
+        }
+    }
+    
+    func backendSocketState() {
+        DispatchQueue.main.async {
+            self.isSocketConnected = true
+            self.button.alpha = 1.0
+            self.backgroundView.isHidden = false
+            self.textView.isHidden = false
+            
+            // Ensure text appears at correct position
+            self.updateTextViewPosition()
+            
+            // Hide message after 3 seconds
+            self.hideMessageTimer?.invalidate()
+            self.hideMessageTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { [weak self] _ in
+                self?.hideInitialMessage()
             }
         }
     }
