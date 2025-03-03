@@ -47,9 +47,6 @@ class WebSocketManager: NSObject {
             if let error = error {
                 print("WebSocket sending error: \(error.localizedDescription)")
             }
-//            else {
-//                print("WebSocket message sent: \(message)")
-//            }
         }
     }
     

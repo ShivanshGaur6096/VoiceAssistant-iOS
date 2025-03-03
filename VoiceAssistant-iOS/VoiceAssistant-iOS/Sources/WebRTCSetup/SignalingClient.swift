@@ -212,11 +212,11 @@ class Signaling: NSObject {
             }
             print("Pack ID Generated: \(packIDCreated)")
             
-            if pageToNavigate.lowercased() == "Subscribe".lowercased() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    self.sendRechargeSuccess(for: self.packIDCreated)
-                }
-            }
+//            if pageToNavigate.lowercased() == "Subscribe".lowercased() {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//                    self.sendRechargeSuccess(for: self.packIDCreated)
+//                }
+//            }
         }
     }
     
@@ -253,6 +253,13 @@ class Signaling: NSObject {
         let eventMessageString = Constants.WebRTCCalls.sendRechargeSuccessEvent(with: packID)
         print("sendRechargeSuccess: \(eventMessageString)")
         if let jsonData = try? JSONSerialization.data(withJSONObject: eventMessageString, options: []),
+           let jsonString = String(data: jsonData, encoding: .utf8) {
+            self.webSocketManager.send(message: jsonString)
+        }
+    }
+    
+    func emitAck(event: [String: Any]) {
+        if let jsonData = try? JSONSerialization.data(withJSONObject: event, options: []),
            let jsonString = String(data: jsonData, encoding: .utf8) {
             self.webSocketManager.send(message: jsonString)
         }
